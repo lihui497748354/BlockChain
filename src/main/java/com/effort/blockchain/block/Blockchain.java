@@ -13,7 +13,7 @@ public class Blockchain {
     @Getter
     private List<Block> blockList;
 
-    public Blockchain(List<Block> blockList) {
+    private Blockchain(List<Block> blockList) {
         this.blockList = blockList;
     }
     /**
@@ -33,15 +33,15 @@ public class Blockchain {
      */
     public void addBlock(String data) {
         Block previousBlock = blockList.get(blockList.size() - 1);
-        this.addBlock(Block.newBlock(previousBlock.getHash(), data));
+        addBlock(Block.newBlock(previousBlock.getHash(), data));
     }
     /**
      * <p> 添加区块  </p>
      *
      * @param block
      */
-    public void addBlock(Block block) {
-        this.blockList.add(block);
+    private void addBlock(Block block) {
+        blockList.add(block);
     }
 
 }

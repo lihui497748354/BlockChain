@@ -46,9 +46,9 @@ public class Block {
      */
     private long nonce;
 
-    public Block() {}
+    private Block() {}
 
-    public Block(String hash, String prevBlockHash, String data, long timeStamp,long nonce) {
+    private Block(String hash, String prevBlockHash, String data, long timeStamp,long nonce) {
         this();
         this.hash = hash;
         this.prevBlockHash = prevBlockHash;
@@ -90,14 +90,14 @@ public class Block {
      */
     private void setHash() {
         byte[] prevBlockHashBytes = {};
-        if (StringUtils.isNoneBlank(this.getPrevBlockHash())) {
-            prevBlockHashBytes = new BigInteger(this.getPrevBlockHash(), 16).toByteArray();
+        if (StringUtils.isNoneBlank(getPrevBlockHash())) {
+            prevBlockHashBytes = new BigInteger(getPrevBlockHash(), 16).toByteArray();
         }
 
         byte[] headers = ByteUtils.merge(
                 prevBlockHashBytes,
                 this.getData().getBytes(),
-                ByteUtils.toBytes(this.getTimeStamp()));
+                ByteUtils.toBytes(getTimeStamp()));
 
         this.setHash(DigestUtils.sha256Hex(headers));
     }

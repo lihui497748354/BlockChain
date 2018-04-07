@@ -55,12 +55,12 @@ public class ProofOfWork {
     public PowResult run(){
         long nonce = 0;
         String shaHex = "";
-        System.out.printf("Mining the block containing：%s \n", this.getBlock().getData());
+        System.out.printf("Mining the block containing：%s \n", getBlock().getData());
         long startTime = System.currentTimeMillis();
         while (nonce < Long.MAX_VALUE){
             byte[] data = prepareData(nonce);
             shaHex = DigestUtils.sha256Hex(data);
-            if (new BigInteger(shaHex, 16).compareTo(this.target) == -1) {
+            if (new BigInteger(shaHex, 16).compareTo(target) == -1) {
                 System.out.printf("Elapsed Time: %s seconds \n", (float) (System.currentTimeMillis() - startTime) / 1000);
                 System.out.printf("correct hash Hex: %s \n\n", shaHex);
                 break;
