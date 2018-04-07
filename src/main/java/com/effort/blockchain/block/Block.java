@@ -81,25 +81,4 @@ public class Block {
         block.setNonce(powResult.getNonce());
         return block;
     }
-    /**
-     * 计算区块Hash
-     * <p>
-     * 注意：在准备区块数据时，一定要从原始数据类型转化为byte[]，不能直接从字符串进行转换
-     *
-     * @return
-     */
-    private void setHash() {
-        byte[] prevBlockHashBytes = {};
-        if (StringUtils.isNoneBlank(getPrevBlockHash())) {
-            prevBlockHashBytes = new BigInteger(getPrevBlockHash(), 16).toByteArray();
-        }
-
-        byte[] headers = ByteUtils.merge(
-                prevBlockHashBytes,
-                this.getData().getBytes(),
-                ByteUtils.toBytes(getTimeStamp()));
-
-        this.setHash(DigestUtils.sha256Hex(headers));
-    }
-
 }
