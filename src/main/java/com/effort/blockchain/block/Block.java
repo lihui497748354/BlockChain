@@ -1,5 +1,7 @@
 package com.effort.blockchain.block;
 
+import com.effort.blockchain.pow.PowResult;
+import com.effort.blockchain.pow.ProofOfWork;
 import com.effort.blockchain.utils.ByteUtils;
 import lombok.Data;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -39,14 +41,20 @@ public class Block {
      */
     private long timeStamp;
 
+    /**
+     * 工作量证明计数器
+     */
+    private long nonce;
+
     public Block() {}
 
-    public Block(String hash, String prevBlockHash, String data, long timeStamp) {
+    public Block(String hash, String prevBlockHash, String data, long timeStamp,long nonce) {
         this();
         this.hash = hash;
         this.prevBlockHash = prevBlockHash;
         this.data = data;
         this.timeStamp = timeStamp;
+        this.nonce = nonce;
     }
 
     /**
@@ -66,8 +74,11 @@ public class Block {
      * @return
      */
     public static Block newBlock(String previousHash, String data) {
-        Block block = new Block("", previousHash, data, Instant.now().getEpochSecond());
-        block.setHash();
+        Block block = new Block("", previousHash, data, Instant.now().getEpochSecond(), 0);
+        ProofOfWork pow = ProofOfWork.newProofOfWork(block);
+        PowResult powResult = pow.run();
+        block.setHash(powResult.getHash());
+        block.setNonce(powResult.getNonce());
         return block;
     }
     /**
